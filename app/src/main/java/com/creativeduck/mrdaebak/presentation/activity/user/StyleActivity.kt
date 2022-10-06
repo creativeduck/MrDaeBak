@@ -1,15 +1,16 @@
-package com.creativeduck.mrdaebak.presentation
+package com.creativeduck.mrdaebak.presentation.activity.user
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivityStyleBinding
-import com.creativeduck.mrdaebak.presentation.DinnerActivity.Companion.CHAMPAGNE
-import com.creativeduck.mrdaebak.presentation.DinnerActivity.Companion.DINNER_TYPE
-import com.creativeduck.mrdaebak.presentation.DinnerActivity.Companion.VALENTINE
+import com.creativeduck.mrdaebak.presentation.activity.BaseActivity
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.CHAMPAGNE
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.DINNER_TYPE
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.VALENTINE
 
-class StyleActivity: AppCompatActivity() {
+class StyleActivity : BaseActivity<ActivityStyleBinding>(ActivityStyleBinding::inflate) {
 
     companion object {
         const val SIMPLE = 0
@@ -17,8 +18,6 @@ class StyleActivity: AppCompatActivity() {
         const val DELUXE = 2
         const val STYLE_TYPE = "style type"
     }
-
-    lateinit var binding: ActivityStyleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,23 +34,30 @@ class StyleActivity: AppCompatActivity() {
                 if (dinnerType == CHAMPAGNE) {
                     Toast.makeText(applicationContext, "샴페인 축제 디너는 그랜드 또는 디럭스 스타일만 가능합니다.", Toast.LENGTH_SHORT).show()
                 }
-                startRevise(dinnerType, SIMPLE)
+                startRevise(dinnerType,
+                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.SIMPLE
+                )
             }
 
             tvStyleGrand.setOnClickListener {
-                startRevise(dinnerType, GRAND)
+                startRevise(dinnerType,
+                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.GRAND
+                )
             }
 
             tvStyleDeluxe.setOnClickListener {
-                startRevise(dinnerType, DELUXE)
+                startRevise(dinnerType,
+                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.DELUXE
+                )
             }
         }
     }
 
     private fun startRevise(dinnerType: Int, styleType: Int) {
-        val intent = Intent(this, ReviseActivity::class.java)
+        val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DINNER_TYPE, dinnerType)
         intent.putExtra(STYLE_TYPE, styleType)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 }

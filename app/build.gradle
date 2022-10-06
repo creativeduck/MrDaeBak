@@ -1,11 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.secrets_gradle_plugin' version '0.6.1'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
 }
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakao_native_app_key = properties.getProperty('kakao_native_app_key')
+def kaoko_rest_api_key = properties.getProperty('kakao_rest_api_key')
 
 android {
     compileSdk 32
@@ -97,4 +102,9 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling:1.1.1'
     // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    // Kakao
+    implementation "com.kakao.sdk:v2-user:2.11.2" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-talk:2.11.2" // 친구, 메시지(카카오톡)
+    implementation "com.kakao.sdk:v2-share:2.11.2" // 메시지(카카오톡 공유)
+    implementation "com.kakao.sdk:v2-friend:2.11.2" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
 }

@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.creativeduck.mrdaebak">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:name=".ApplicationClass"
@@ -14,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrDaeBak"
         tools:targetApi="31">
-        <activity android:name=".presentation.LoginActivity"
+        <activity android:name=".presentation.activity.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +26,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".presentation.DinnerActivity"
+            android:name=".presentation.activity.user.DinnerActivity"
             android:exported="false">
         </activity>
-
-        <activity android:name=".presentation.StyleActivity"
+        <activity android:name=".presentation.activity.user.StyleActivity"
             android:exported="false"/>
-
-        <activity android:name=".presentation.ReviseActivity"
+        <activity android:name=".presentation.activity.user.DetailActivity"
+            android:exported="false"/>
+        <activity android:name=".presentation.activity.auth.SignInActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".presentation.activity.user.stt.SttDinnerActivity"
+            android:exported="false"/>
+        <activity android:name=".presentation.activity.user.stt.SttStyleActivity"
             android:exported="false"/>
 
 
