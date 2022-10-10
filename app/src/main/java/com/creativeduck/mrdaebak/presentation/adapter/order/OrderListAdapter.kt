@@ -1,16 +1,21 @@
-package com.creativeduck.mrdaebak.presentation.adapter.detail
+package com.creativeduck.mrdaebak.presentation.adapter.order
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.creativeduck.mrdaebak.databinding.ItemDetailHeaderBinding
-import com.creativeduck.mrdaebak.databinding.ItemDetailItemBinding
-import com.creativeduck.mrdaebak.domain.detail.DetailModel
+import com.creativeduck.mrdaebak.databinding.ItemOrderHeaderBinding
+import com.creativeduck.mrdaebak.databinding.ItemOrderItemBinding
+import com.creativeduck.mrdaebak.presentation.model.OrderModel
 import com.creativeduck.mrdaebak.presentation.adapter.ItemDiffCallback
+import com.creativeduck.mrdaebak.util.OnItemClickListener
 
-class DetailListAdapter : ListAdapter<DetailModel.DetailItemModel, RecyclerView.ViewHolder>(ItemDiffCallback<DetailModel.DetailItemModel>(
-    onItemsTheSame = { old, new -> old.price == new.price },
+class OrderListAdapter(
+    private val addListener: OnItemClickListener,
+    private val minusListener: OnItemClickListener,
+    private val checkListener: (Int) -> Unit
+) : ListAdapter<OrderModel, RecyclerView.ViewHolder>(ItemDiffCallback<OrderModel>(
+    onItemsTheSame = { old, new -> old.title == new.title },
     onContentsTheSame = { old, new -> old == new }
 )) {
     lateinit var inflater: LayoutInflater
@@ -22,11 +27,11 @@ class DetailListAdapter : ListAdapter<DetailModel.DetailItemModel, RecyclerView.
 
         return when (viewType) {
             DETAIL_ITEM -> {
-                val binding = ItemDetailItemBinding.inflate(inflater, parent, false)
-                DetailItemViewHolder(binding)
+                val binding = ItemOrderItemBinding.inflate(inflater, parent, false)
+                DetailItemViewHolder(binding, addListener, minusListener, checkListener)
             }
             else -> {
-                val binding = ItemDetailHeaderBinding.inflate(inflater, parent, false)
+                val binding = ItemOrderHeaderBinding.inflate(inflater, parent, false)
                 DetailHeaderViewHolder(binding)
             }
         }
@@ -36,17 +41,17 @@ class DetailListAdapter : ListAdapter<DetailModel.DetailItemModel, RecyclerView.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is DetailItemViewHolder -> {
-                holder.bind(getItem(position) as DetailModel.DetailItemModel)
+                holder.bind(getItem(position) as OrderModel.OrderItemModel)
             }
             is DetailHeaderViewHolder -> {
-                holder.bind(getItem(position) as DetailModel.DetailHeaderModel)
+                holder.bind(getItem(position) as OrderModel.OrderHeaderModel)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is DetailModel.DetailItemModel -> {
+            is OrderModel.OrderItemModel -> {
                 DETAIL_ITEM
             }
             else -> {

@@ -34,27 +34,21 @@ class StyleActivity : BaseActivity<ActivityStyleBinding>(ActivityStyleBinding::i
                 if (dinnerType == CHAMPAGNE) {
                     Toast.makeText(applicationContext, "샴페인 축제 디너는 그랜드 또는 디럭스 스타일만 가능합니다.", Toast.LENGTH_SHORT).show()
                 }
-                startRevise(dinnerType,
-                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.SIMPLE
-                )
+                startOrder(dinnerType, SIMPLE)
             }
 
             tvStyleGrand.setOnClickListener {
-                startRevise(dinnerType,
-                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.GRAND
-                )
+                startOrder(dinnerType, GRAND)
             }
 
             tvStyleDeluxe.setOnClickListener {
-                startRevise(dinnerType,
-                    com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity.DELUXE
-                )
+                startOrder(dinnerType, DELUXE)
             }
         }
     }
 
-    private fun startRevise(dinnerType: Int, styleType: Int) {
-        val intent = Intent(this, DetailActivity::class.java)
+    private fun startOrder(dinnerType: Int, styleType: Int) {
+        val intent = Intent(this, OrderActivity::class.java)
         intent.putExtra(DINNER_TYPE, dinnerType)
         intent.putExtra(STYLE_TYPE, styleType)
         startActivity(intent)

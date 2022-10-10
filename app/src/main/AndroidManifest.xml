@@ -32,7 +32,7 @@
         </activity>
         <activity android:name=".presentation.activity.user.StyleActivity"
             android:exported="false"/>
-        <activity android:name=".presentation.activity.user.DetailActivity"
+        <activity android:name=".presentation.activity.user.OrderActivity"
             android:exported="false"/>
         <activity android:name=".presentation.activity.auth.SignInActivity"
             android:exported="true">
@@ -41,7 +41,10 @@
             android:exported="false"/>
         <activity android:name=".presentation.activity.user.stt.SttStyleActivity"
             android:exported="false"/>
-
+        <activity android:name=".presentation.activity.user.OrderListActivity"
+            android:exported="false"/>
+        <activity android:name=".presentation.activity.user.OrderDetailActivity"
+            android:exported="false"/>
 
     </application>
 

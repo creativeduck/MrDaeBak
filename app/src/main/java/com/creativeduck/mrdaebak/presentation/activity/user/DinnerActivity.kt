@@ -28,16 +28,16 @@ class DinnerActivity : BaseActivity<ActivityDinnerBinding>(ActivityDinnerBinding
     private fun initClick() {
         with(binding) {
             btnDinnerValentine.setOnClickListener {
-                startStyle(com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.VALENTINE)
+                startStyle(VALENTINE)
             }
             btnDinnerFrench.setOnClickListener {
-                startStyle(com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.FRENCH)
+                startStyle(FRENCH)
             }
             btnDinnerEnglish.setOnClickListener {
-                startStyle(com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.ENGLISH)
+                startStyle(ENGLISH)
             }
             btnDinnerChampagne.setOnClickListener {
-                startStyle(com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.CHAMPAGNE)
+                startStyle(CHAMPAGNE)
             }
             fabDinnerStt.setOnClickListener {
                 orderByStt()

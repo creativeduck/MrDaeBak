@@ -10,7 +10,7 @@ plugins {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def kakao_native_app_key = properties.getProperty('kakao_native_app_key')
-def kaoko_rest_api_key = properties.getProperty('kakao_rest_api_key')
+def kakao_rest_api_key = properties.getProperty('kakao_rest_api_key')
 
 android {
     compileSdk 32
@@ -83,7 +83,7 @@ dependencies {
     // LifecycleScope
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     // 보안
-    implementation "androidx.security:security-crypto:1.0.0"
+    implementation 'androidx.security:security-crypto:1.1.0-alpha01'
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

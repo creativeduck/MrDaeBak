@@ -16,8 +16,17 @@ import android.view.MotionEvent
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivitySttDinnerBinding
 import com.creativeduck.mrdaebak.presentation.activity.BaseActivity
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.CHAMPAGNE
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.ENGLISH
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.FRENCH
+import com.creativeduck.mrdaebak.presentation.activity.user.DinnerActivity.Companion.VALENTINE
+import com.creativeduck.mrdaebak.presentation.activity.user.StyleActivity
+import com.creativeduck.mrdaebak.util.dispatch
+import kotlinx.coroutines.*
 
 class SttDinnerActivity : BaseActivity<ActivitySttDinnerBinding>(ActivitySttDinnerBinding::inflate) {
 
@@ -67,6 +76,32 @@ class SttDinnerActivity : BaseActivity<ActivitySttDinnerBinding>(ActivitySttDinn
         button.setOnTouchListener { _, _ ->
             for(btn in btnList) {
                 btn.isPressed = btn == button
+                if (btn.isPressed) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(500)
+                        // TODO 각 버튼에 따라 이동하는 로직 추
+                        when (btn) {
+                            binding.btnDinnerValentine -> {
+                                startStyle(VALENTINE)
+                                Log.d("HELLO", "valuentine")
+                            }
+
+                            binding.btnDinnerFrench ->{
+                                startStyle(FRENCH)
+                                Log.d("HELLO", "french")
+                            }
+                            binding.btnDinnerChampagne -> {
+                                startStyle(CHAMPAGNE)
+                                Log.d("HELLO", "champ")
+                            }
+                            binding.btnDinnerEnglish -> {
+                                startStyle(ENGLISH)
+                                Log.d("HELLO", "englitsh")
+                            }
+                        }
+                        cancel()
+                    }
+                }
             }
             true
         }
@@ -122,25 +157,17 @@ class SttDinnerActivity : BaseActivity<ActivitySttDinnerBinding>(ActivitySttDinn
                 for (i in matches!!.indices) {
                     newText += matches[i]
                 }
-                binding.tvRecord.text = newText
-                when (newText) {
-                    "프렌치 디너" -> {
-                        binding.btnDinnerFrench.dispatchTouchEvent(MotionEvent
-                            .obtain(uptimeMillis(), uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))
-                    }
-                    "발렌타인 디너" -> {
-                        binding.btnDinnerValentine.dispatchTouchEvent(MotionEvent
-                            .obtain(uptimeMillis(), uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))
-                    }
-                    else -> {
-                        showCustomToast(newText)
-                        binding.btnDinnerChampagne.dispatchTouchEvent(MotionEvent
-                            .obtain(uptimeMillis(), uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))
+                with(binding) {
+                    tvRecord.text = newText
+                    when (newText) {
+                        "잉글리시 디너" -> btnDinnerEnglish.dispatch(700)
+                        "프렌치 디너" -> btnDinnerFrench.dispatch(700)
+                        "발렌타인 디너" -> btnDinnerValentine.dispatch(700)
+                        "샴페인 디너" -> btnDinnerChampagne.dispatch(700)
+                        else -> showCustomToast(newText)
                     }
                 }
-                Log.d("HELLO", "finished")
             }
-
             override fun onPartialResults(bundle: Bundle) {}
             override fun onEvent(i: Int, bundle: Bundle) {}
         }
@@ -157,6 +184,13 @@ class SttDinnerActivity : BaseActivity<ActivitySttDinnerBinding>(ActivitySttDinn
     //녹음 중지
     fun stopRecord() {
         speechRecognizer.stopListening() //녹음 중지
+    }
+
+    private fun startStyle(dinner: Int) {
+        val intent = Intent(this, SttStyleActivity::class.java)
+        intent.putExtra(DinnerActivity.DINNER_TYPE, dinner)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
     private fun checkRecordPermission() {
