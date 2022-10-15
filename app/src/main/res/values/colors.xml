@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="kakao_black">#FF1A1A1A</color>
-    <color name="kakao_yellow">#FEE500</color>
+    <color name="kakao_yellow">#FFFEE500</color>
     <color name="kakao_text">#D9000000</color>
+    <color name="orange">#FFFF7347</color>
+    <color name="green">#00BC08</color>
+
 </resources>

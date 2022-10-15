@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_ingredient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="식자재 목록"
+        app:menu="@menu/menu_ingredient"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_ingredient"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#E8E8E8"
+        app:layout_constraintTop_toBottomOf="@+id/tb_ingredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ingredient_order"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ingredient_order"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.075"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/shape_kakao_btn"
+        android:backgroundTint="@color/kakao_black"
+        android:elevation="0dp"
+        android:text="회원가입"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

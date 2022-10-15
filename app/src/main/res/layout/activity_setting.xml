@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SettingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_setting"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_setting_image"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:background="@color/kakao_yellow"
+        android:src="@drawable/ic_user"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_setting"
+        app:shapeAppearanceOverlay="@style/roundedCorner" />
+
+    <TextView
+        android:id="@+id/tv_setting_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="닉네임"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@+id/iv_setting_image" />
+
+    <EditText
+        android:id="@+id/tv_setting_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_setting_name_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_setting_name_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_name_title"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        tools:text="안광민" />
+
+    <TextView
+        android:id="@+id/tv_setting_address_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="주소"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting_name_title" />
+
+    <EditText
+        android:id="@+id/tv_setting_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@id/tv_setting_address_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_setting_address_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_address_title"
+        tools:text="서울시 동대문구" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_setting_revise"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.075"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/shape_kakao_btn"
+        android:backgroundTint="@color/kakao_black"
+        android:elevation="0dp"
+        android:text="정보 수정"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

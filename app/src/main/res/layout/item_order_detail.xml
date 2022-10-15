@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_order_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="에그 스크램블"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_order_detail_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_detail_name"
+        android:layout_marginStart="30dp"
+        tools:text="1개"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_order_detail_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_detail_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        tools:text="7,500원"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

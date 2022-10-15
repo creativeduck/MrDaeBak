@@ -5,7 +5,3 @@ import android.view.View
 interface OnItemClickListener {
     fun onItemClicked(view: View, pos: Int)
 }
-
-interface OnItemLongClickListener {
-    fun onItemLongClicked(view: View, pos: Int)
-}
