@@ -45,32 +45,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-
-    inline fun <reified T: Activity> Activity.startNewActivityWithInt(vararg value: Pair<String, Int>) {
-        val intent = Intent(this, T::class.java)
-        for(item in value) {
-            intent.putExtra(item.first, item.second)
-        }
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
-
-    inline fun <reified T: Activity> Activity.startNewActivityWithLong(vararg value: Pair<String, Long>) {
-        val intent = Intent(this, T::class.java)
-        for(item in value) {
-            intent.putExtra(item.first, item.second)
-        }
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
-
-    inline fun <reified T: Activity> Activity.startNewActivityAndClear(vararg value: Pair<String, Int>) {
-        val intent = Intent(this, T::class.java)
-        for(item in value) {
-            intent.putExtra(item.first, item.second)
-        }
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
+    open fun initClick() {}
+    open fun initAdapter() {}
+    open fun initData() {}
 }

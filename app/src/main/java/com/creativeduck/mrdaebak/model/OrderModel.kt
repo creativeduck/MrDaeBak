@@ -1,12 +1,6 @@
 package com.creativeduck.mrdaebak.model
 
 sealed class OrderModel(open val title: String) {
-    data class OrderSimpleModel(
-        val id: Long,
-        override val title: String,
-        val amount: Int
-    ): OrderModel(title)
-
     data class OrderItemModel(
         val id: Long,
         override val title: String,

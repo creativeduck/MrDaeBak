@@ -5,15 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.EDITING
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.EDIT_COMPLETED
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivitySettingBinding
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
-
-    companion object {
-        const val EDIT_COMPLETED = 0
-        const val EDITING = 1
-    }
 
     private lateinit var menu: Menu
     private var reviseState = EDIT_COMPLETED
@@ -24,10 +21,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
 
         initClick()
         initData()
-
     }
 
-    private fun initData() {
+    override fun initData() {
         // TODO 사용자 이름 및 주소 불러오기
         with(binding) {
             tvSettingName.setText("안광민")
@@ -37,7 +33,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
         binding.tvSettingName.isEnabled = false
     }
     
-    private fun initClick() {
+    override fun initClick() {
         binding.btnSettingRevise.setOnClickListener {
             // 수정 완료 상태라면, 수정중 상태로 변경
             if (reviseState == EDITING) {
@@ -72,8 +68,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
         // TODO 여기서 회원 정보 수정한 거 DB 에 반영하기
     }
 
+    private fun withdrawal() {
 
-
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu

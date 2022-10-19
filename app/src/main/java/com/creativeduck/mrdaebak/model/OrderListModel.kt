@@ -5,5 +5,5 @@ data class OrderListModel(
     val dinner: String,
     val style: String,
     val price: Long,
-    val deliveryState: OrderState
+    val orderState: OrderState
 )

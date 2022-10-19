@@ -1,9 +1,12 @@
 package com.creativeduck.mrdaebak.util
 
+import android.app.Activity
+import android.content.Intent
 import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.Button
+import com.creativeduck.mrdaebak.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,4 +40,26 @@ fun <T: Any> Call<T>.getResponse(success: (T) -> Unit, failure: (Throwable) -> U
             failure(t)
         }
     })
+}
+
+inline fun <reified T: Activity> Activity.goActivityWithInt(vararg value: Pair<String, Int>, clear: Boolean = false) {
+    val intent = Intent(this, T::class.java)
+    for(item in value) {
+        intent.putExtra(item.first, item.second)
+    }
+    if (clear)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    startActivity(intent)
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+}
+
+inline fun <reified T: Activity> Activity.goActivityWithLong(vararg value: Pair<String, Long>, clear: Boolean = false) {
+    val intent = Intent(this, T::class.java)
+    for(item in value) {
+        intent.putExtra(item.first, item.second)
+    }
+    if (clear)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    startActivity(intent)
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 }

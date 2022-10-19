@@ -3,6 +3,8 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_ME
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivityIngredientBinding
 
@@ -17,7 +19,7 @@ class IngredientActivity : BaseActivity<ActivityIngredientBinding>(ActivityIngre
         initClick()
     }
 
-    private fun initClick() {
+    override fun initClick() {
         binding.btnIngredientOrder.setOnClickListener {
             // TODO 주문 후 상태 변경
             
@@ -41,7 +43,7 @@ class IngredientActivity : BaseActivity<ActivityIngredientBinding>(ActivityIngre
                 // TODO 여기선 단지 아이템 상태를 바꾸기만 하자
                 // TODO 어차피 수정 버튼을 눌러서 다시 원래 상태로 돌아오니까
                 item.title = ""
-                loadData(SignInActivity.ROLE_RIDER, OrderReceiptActivity.SHOW_STATE_ME)
+                loadData(ROLE_RIDER, SHOW_STATE_ME)
             }
             else -> return true
         }

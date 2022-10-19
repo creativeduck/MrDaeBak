@@ -19,7 +19,7 @@ class OrderListViewHolder(
             tvOrderListItemTitle.text = "${item.dinner} / ${item.style}"
             tvOrderListItemPrice.text = item.price.moneyFormat()
             tvOrderListItemDeliveryState.text =
-                when (item.deliveryState) {
+                when (item.orderState) {
                     OrderState.NOT_RECEIVED -> {
                         "미접수"
                     }

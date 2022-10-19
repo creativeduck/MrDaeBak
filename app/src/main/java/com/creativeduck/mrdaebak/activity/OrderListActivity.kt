@@ -1,11 +1,13 @@
 package com.creativeduck.mrdaebak.activity
 
 import android.os.Bundle
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ORDER_LIST_ITEM_ID
 import com.creativeduck.mrdaebak.adapter.OrderListAdapter
 import com.creativeduck.mrdaebak.databinding.ActivityOrderListBinding
 import com.creativeduck.mrdaebak.model.OrderListModel
 import com.creativeduck.mrdaebak.model.OrderState
 import com.creativeduck.mrdaebak.util.AllSpaceDecoration
+import com.creativeduck.mrdaebak.util.goActivityWithLong
 
 class OrderListActivity : BaseActivity<ActivityOrderListBinding>(ActivityOrderListBinding::inflate) {
     private val orderListList = listOf(
@@ -21,10 +23,6 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>(ActivityOrderLi
         OrderListModel(10L, "발렌타인 디너", "심플 디너", 1246234, OrderState.DELIVERING),
     )
 
-    companion object {
-        const val ORDER_LIST_ITEM_ID = "order_list_item_id"
-    }
-
     private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,9 +32,13 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>(ActivityOrderLi
         initAdapter()
     }
 
-    private fun initAdapter() {
+    private fun loadOrderList() {
+
+    }
+
+    override fun initAdapter() {
         orderListAdapter = OrderListAdapter {
-            startNewActivityWithLong<OrderDetailActivity>(Pair(ORDER_LIST_ITEM_ID, it.id))
+            goActivityWithLong<OrderDetailActivity>(Pair(ORDER_LIST_ITEM_ID, it.id))
         }
         orderListAdapter.submitList(orderListList)
 

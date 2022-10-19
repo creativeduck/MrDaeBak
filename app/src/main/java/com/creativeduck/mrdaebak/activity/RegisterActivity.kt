@@ -3,39 +3,21 @@ package com.creativeduck.mrdaebak.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
-import com.creativeduck.mrdaebak.databinding.ActivitySignInBinding
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_COOK
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_MANAGER
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_USER
+import com.creativeduck.mrdaebak.databinding.ActivityRegisterBinding
+import com.creativeduck.mrdaebak.util.goActivityWithInt
 
-class SignInActivity: BaseActivity<ActivitySignInBinding>(ActivitySignInBinding::inflate) {
-
-    companion object {
-        const val ROLE_USER = 0
-        const val ROLE_MANAGER = 1
-        const val ROLE_COOK = 2
-        const val ROLE_RIDER = 3
-    }
+class RegisterActivity: BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate) {
 
     private val btnList = ArrayList<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initBtn()
         initClick()
-
-    }
-
-    private fun initBtn() {
-        with(binding) {
-            btnList.add(btnSignInRoleCook)
-            btnList.add(btnSignInRoleRider)
-            btnList.add(btnSignInRoleUser)
-            btnList.add(btnSignInRoleManager)
-
-            btnState(btnSignInRoleCook)
-            btnState(btnSignInRoleRider)
-            btnState(btnSignInRoleUser)
-            btnState(btnSignInRoleManager)
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,16 +35,16 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(ActivitySignInBinding:
             for(btn in btnList) {
                 if (btn.isPressed) {
                     return when (btn) {
-                        btnSignInRoleUser -> {
+                        btnRegisterRoleUser -> {
                             ROLE_USER
                         }
-                        btnSignInRoleManager -> {
+                        btnRegisterRoleManager -> {
                             ROLE_MANAGER
                         }
-                        btnSignInRoleCook -> {
+                        btnRegisterRoleCook -> {
                             ROLE_COOK
                         }
-                        btnSignInRoleRider -> {
+                        btnRegisterRoleRider -> {
                             ROLE_RIDER
                         }
                         else -> {
@@ -75,35 +57,44 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(ActivitySignInBinding:
         return ROLE_USER
     }
 
-    private fun signIn(name: String, address: String, role: Int) {
+    private fun register(name: String, address: String, role: Int) {
         // TODO 회원정보 post 보내기
         // TODO 임시로 한 것
         when (role) {
             ROLE_USER -> {
-                startNewActivityAndClear<DinnerActivity>()
+                goActivityWithInt<DinnerActivity>(clear = true)
             }
             ROLE_COOK -> {
-                startNewActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_COOK))
+                goActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_COOK))
             }
             ROLE_RIDER -> {
-                startNewActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_RIDER))
+                goActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_RIDER))
             }
             ROLE_MANAGER -> {
-                startNewActivityAndClear<IngredientActivity>()
+                goActivityWithInt<IngredientActivity>(clear = true)
             }
         }
-//        // TODO 그 이후 이동하기
+//        // TODO 다시 로그인 화면으로 이동해서 로그인하기
 //        startNewActivityAndClear<LoginActivity>()
     }
 
-    private fun initClick() {
+    override fun initClick() {
         with(binding) {
-            btnSignIn.setOnClickListener {
+            btnRegister.setOnClickListener {
                 val name = editSignInName.text.toString()
                 val address = editSignInAddress.text.toString()
                 val btn = getPressedBtn()
-                signIn(name, address, btn)
+                register(name, address, btn)
             }
+            btnList.add(btnRegisterRoleCook)
+            btnList.add(btnRegisterRoleRider)
+            btnList.add(btnRegisterRoleUser)
+            btnList.add(btnRegisterRoleManager)
+
+            btnState(btnRegisterRoleCook)
+            btnState(btnRegisterRoleRider)
+            btnState(btnRegisterRoleUser)
+            btnState(btnRegisterRoleManager)
         }
     }
 

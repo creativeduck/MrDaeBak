@@ -34,12 +34,3 @@ class OrderItemViewHolder(
         }
     }
 }
-
-class OrderHeaderViewHolder(
-    private val binding: ItemOrderHeaderBinding
-): RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(item: OrderModel.OrderHeaderModel) {
-        binding.tvOrderTitle.text = item.title
-    }
-}

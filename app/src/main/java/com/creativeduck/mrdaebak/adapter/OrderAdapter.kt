@@ -18,7 +18,7 @@ class OrderAdapter(
     onItemsTheSame = { old, new -> old.title == new.title },
     onContentsTheSame = { old, new -> old == new }
 )) {
-    lateinit var inflater: LayoutInflater
+    private lateinit var inflater: LayoutInflater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (!::inflater.isInitialized) {

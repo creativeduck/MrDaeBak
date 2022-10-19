@@ -30,7 +30,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBanChanRetrofit(
+    fun provideRetrofit(
         okHttpClient: OkHttpClient
     ): Retrofit {
         val gson: Gson = GsonBuilder()

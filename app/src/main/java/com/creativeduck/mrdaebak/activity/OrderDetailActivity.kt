@@ -29,7 +29,11 @@ class OrderDetailActivity : BaseActivity<ActivityOrderDetailBinding>(ActivityOrd
         initAdapter()
     }
 
-    private fun initAdapter() {
+    private fun loadOrderDetail() {
+
+    }
+
+    override fun initAdapter() {
         orderDetailAdapter = OrderDetailAdapter()
         // TODO 주문 내역 리스트 설정
         binding.rcOrderDetail.apply {
@@ -38,7 +42,7 @@ class OrderDetailActivity : BaseActivity<ActivityOrderDetailBinding>(ActivityOrd
         orderDetailAdapter.submitList(orderDetailList)
     }
 
-    private fun initData() {
+    override fun initData() {
         with(binding) {
             // TODO 주문 상태 설정
             tvOrderDetailDeliveryState.text = "배달중"
@@ -55,8 +59,6 @@ class OrderDetailActivity : BaseActivity<ActivityOrderDetailBinding>(ActivityOrd
             tvOrderDetailAddress.text = "서울시 동대문구"
         }
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu

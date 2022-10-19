@@ -3,14 +3,11 @@ package com.creativeduck.mrdaebak.adapter
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_LIST
 import com.creativeduck.mrdaebak.R
-import com.creativeduck.mrdaebak.activity.OrderReceiptActivity.Companion.SHOW_STATE_LIST
-import com.creativeduck.mrdaebak.databinding.ItemOrderDetailBinding
 import com.creativeduck.mrdaebak.databinding.ItemOrderReceiptBinding
-import com.creativeduck.mrdaebak.model.OrderDetailModel
 import com.creativeduck.mrdaebak.model.OrderReceiptModel
 import com.creativeduck.mrdaebak.util.moneyFormat
-import java.lang.StringBuilder
 
 class OrderReceiptViewHolder(
     private val binding: ItemOrderReceiptBinding
@@ -20,7 +17,7 @@ class OrderReceiptViewHolder(
         with(binding) {
             tvOrderReceiptAddress.text = item.address
             tvOrderReceiptPrice.text = item.price.moneyFormat()
-            tvOrderReceiptTime.text = item.order_time
+            tvOrderReceiptTime.text = item.orderTime
             tvOrderReceiptDinnerAndStyle.text = "${item.dinner} / ${item.style}"
             var menuStr = StringBuilder()
             menuStr.append("${item.menus[0].title} ${item.menus[0].amount}개")

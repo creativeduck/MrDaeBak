@@ -3,18 +3,16 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_CHAMPAGNE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_ENGLISH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_FRENCH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_TYPE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_VALENTINE
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivityDinnerBinding
+import com.creativeduck.mrdaebak.util.goActivityWithInt
 
 class DinnerActivity : BaseActivity<ActivityDinnerBinding>(ActivityDinnerBinding::inflate) {
-
-    companion object {
-        const val VALENTINE = 0
-        const val FRENCH = 1
-        const val ENGLISH = 2
-        const val CHAMPAGNE = 3
-        const val DINNER_TYPE = "dinner type"
-    }
 
     private lateinit var menu: Menu
 
@@ -25,22 +23,22 @@ class DinnerActivity : BaseActivity<ActivityDinnerBinding>(ActivityDinnerBinding
         initClick()
     }
 
-    private fun initClick() {
+    override fun initClick() {
         with(binding) {
             btnDinnerValentine.setOnClickListener {
-                startNewActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, VALENTINE))
+                goActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, DINNER_VALENTINE))
             }
             btnDinnerFrench.setOnClickListener {
-                startNewActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, FRENCH))
+                goActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, DINNER_FRENCH))
             }
             btnDinnerEnglish.setOnClickListener {
-                startNewActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, ENGLISH))
+                goActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, DINNER_ENGLISH))
             }
             btnDinnerChampagne.setOnClickListener {
-                startNewActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, CHAMPAGNE))
+                goActivityWithInt<StyleActivity>(Pair(DINNER_TYPE, DINNER_CHAMPAGNE))
             }
             fabDinnerStt.setOnClickListener {
-                startNewActivityWithInt<SttDinnerActivity>()
+                goActivityWithInt<SttDinnerActivity>()
             }
         }
 
@@ -55,10 +53,10 @@ class DinnerActivity : BaseActivity<ActivityDinnerBinding>(ActivityDinnerBinding
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_dinner_order -> {
-                startNewActivityWithInt<OrderListActivity>()
+                goActivityWithInt<OrderListActivity>()
             }
             R.id.menu_dinner_user -> {
-                startNewActivityWithInt<SettingActivity>()
+                goActivityWithInt<SettingActivity>()
             }
             else -> return true
         }

@@ -3,24 +3,21 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_COOK
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_LIST
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_ME
 import com.creativeduck.mrdaebak.R
-import com.creativeduck.mrdaebak.activity.SignInActivity.Companion.ROLE_COOK
-import com.creativeduck.mrdaebak.activity.SignInActivity.Companion.ROLE_RIDER
 import com.creativeduck.mrdaebak.adapter.OrderReceiptAdapter
 import com.creativeduck.mrdaebak.databinding.ActivityOrderReceiptBinding
 import com.creativeduck.mrdaebak.model.OrderModel
 import com.creativeduck.mrdaebak.model.OrderReceiptModel
 import com.creativeduck.mrdaebak.service.RemoteService
 import com.creativeduck.mrdaebak.util.AllSpaceDecoration
-import com.creativeduck.mrdaebak.util.getResponse
 import javax.inject.Inject
 
 class OrderReceiptActivity :
     BaseActivity<ActivityOrderReceiptBinding>(ActivityOrderReceiptBinding::inflate) {
-    companion object {
-        const val SHOW_STATE_LIST = 0
-        const val SHOW_STATE_ME = 1
-    }
 
     private val orderReceiptList = listOf(
         OrderReceiptModel(
@@ -73,7 +70,7 @@ class OrderReceiptActivity :
 
     }
 
-    private fun initAdapter() {
+     override fun initAdapter() {
         orderReceiptAdapter = OrderReceiptAdapter()
 
         binding.rcOrderReceipt.apply {
@@ -82,6 +79,13 @@ class OrderReceiptActivity :
         }
 
         orderReceiptAdapter.submitList(orderReceiptList)
+    }
+
+    private fun startCook() {
+
+    }
+    private fun startDelivery() {
+
     }
 
     private fun loadData(type: Int, showState: Int) {

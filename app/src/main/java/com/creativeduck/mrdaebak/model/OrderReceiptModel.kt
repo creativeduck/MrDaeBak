@@ -5,8 +5,8 @@ data class OrderReceiptModel(
     val dinner: String,
     val style: String,
     val price: Long,
-    val menus: List<OrderModel.OrderSimpleModel>,
+    val menus: List<OrderDetailModel>,
     val address: String,
-    val order_time: String,
+    val orderTime: String,
     val state: Int
 )

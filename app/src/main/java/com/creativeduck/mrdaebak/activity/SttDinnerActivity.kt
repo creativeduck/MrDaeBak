@@ -12,21 +12,19 @@ import android.speech.SpeechRecognizer
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_CHAMPAGNE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_ENGLISH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_FRENCH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_TYPE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_VALENTINE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.PERMISSION
 import com.creativeduck.mrdaebak.databinding.ActivitySttDinnerBinding
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.CHAMPAGNE
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.DINNER_TYPE
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.ENGLISH
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.FRENCH
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.VALENTINE
 import com.creativeduck.mrdaebak.util.dispatch
+import com.creativeduck.mrdaebak.util.goActivityWithInt
 import kotlinx.coroutines.*
 
 class SttDinnerActivity :
     BaseActivity<ActivitySttDinnerBinding>(ActivitySttDinnerBinding::inflate) {
-
-    companion object {
-        const val PERMISSION = 1
-    }
 
     private lateinit var listener: RecognitionListener
     private lateinit var personalIntent: Intent
@@ -40,19 +38,15 @@ class SttDinnerActivity :
         checkRecordPermission() //녹음 퍼미션 체크
 
         initClick()
-        initBtn()
         initRecord()
     }
 
-    private fun initClick() {
-        binding.fabSttDinerRecord.setOnClickListener {
-            startRecord()
-        }
-    }
-
-
-    private fun initBtn() {
+    override fun initClick() {
         with(binding) {
+            fabSttDinerRecord.setOnClickListener {
+                startRecord()
+            }
+
             btnList.add(btnDinnerValentine)
             btnList.add(btnDinnerEnglish)
             btnList.add(btnDinnerFrench)
@@ -76,16 +70,16 @@ class SttDinnerActivity :
                         // TODO 각 버튼에 따라 이동하는 로직 추
                         when (btn) {
                             binding.btnDinnerValentine -> {
-                                startNewActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, VALENTINE))
+                                goActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, DINNER_VALENTINE))
                             }
                             binding.btnDinnerFrench -> {
-                                startNewActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, FRENCH))
+                                goActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, DINNER_FRENCH))
                             }
                             binding.btnDinnerChampagne -> {
-                                startNewActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, CHAMPAGNE))
+                                goActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, DINNER_CHAMPAGNE))
                             }
                             binding.btnDinnerEnglish -> {
-                                startNewActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, ENGLISH))
+                                goActivityWithInt<SttStyleActivity>(Pair(DINNER_TYPE, DINNER_ENGLISH))
                             }
                         }
                         cancel()

@@ -17,20 +17,22 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_ENGLISH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_FRENCH
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_TYPE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_VALENTINE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.PERMISSION
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.STYLE_DELUXE
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.STYLE_GRAND
+import com.creativeduck.mrdaebak.ApplicationClass.Companion.STYLE_SIMPLE
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivitySttStyleBinding
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.DINNER_TYPE
-import com.creativeduck.mrdaebak.activity.DinnerActivity.Companion.VALENTINE
-import com.creativeduck.mrdaebak.activity.StyleActivity.Companion.DELUXE
-import com.creativeduck.mrdaebak.activity.StyleActivity.Companion.GRAND
-import com.creativeduck.mrdaebak.activity.StyleActivity.Companion.SIMPLE
 import com.creativeduck.mrdaebak.util.dispatch
+import com.creativeduck.mrdaebak.util.goActivityWithInt
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleBinding::inflate) {
-
 
     private lateinit var listener: RecognitionListener
     private lateinit var personalIntent: Intent
@@ -41,7 +43,7 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var dinnerType = intent.getIntExtra(DINNER_TYPE, VALENTINE)
+        var dinnerType = intent.getIntExtra(DINNER_TYPE, DINNER_VALENTINE)
 
         checkRecordPermission() //녹음 퍼미션 체크
 
@@ -50,12 +52,11 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
         initRecord()
     }
 
-    private fun initClick() {
+    override fun initClick() {
         binding.fabSttDinerRecord.setOnClickListener {
             startRecord()
         }
     }
-
 
     private fun initBtn(dinnerType: Int) {
         with(binding) {
@@ -80,13 +81,13 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
                         // TODO 각 버튼에 따라 이동하는 로직 추
                         when (btn) {
                             binding.btnStyleSimple -> {
-                                startOrder(dinnerType, SIMPLE)
+                                startOrder(dinnerType, STYLE_SIMPLE)
                             }
                             binding.btnStyleGrand -> {
-                                startOrder(dinnerType, GRAND)
+                                startOrder(dinnerType, STYLE_GRAND)
                             }
                             binding.btnStyleDeluxe -> {
-                                startOrder(dinnerType, DELUXE)
+                                startOrder(dinnerType, STYLE_DELUXE)
                             }
                         }
                         cancel()
@@ -178,13 +179,13 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
     private fun startOrder(dinnerType: Int, styleType: Int) {
         val dinner: String =
             when (dinnerType) {
-                VALENTINE -> {
+                DINNER_VALENTINE -> {
                     "발렌타인 디너"
                 }
-                DinnerActivity.FRENCH -> {
+                DINNER_FRENCH -> {
                     "프렌치 디너"
                 }
-                DinnerActivity.ENGLISH -> {
+                DINNER_ENGLISH -> {
                     "잉글리시 디너"
                 }
                 else -> {
@@ -193,10 +194,10 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
             }
         val style: String =
             when (styleType) {
-                SIMPLE -> {
+                STYLE_SIMPLE -> {
                     "심플 디너"
                 }
-                GRAND -> {
+                STYLE_GRAND -> {
                     "그랜드 디너"
                 }
                 else -> {
@@ -222,7 +223,7 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
 
         val btnOrderOkay : TextView = orderDialog.findViewById(R.id.btn_order_stt_okay)
         btnOrderOkay.setOnClickListener {
-            startNewActivityAndClear<DinnerActivity>()
+            goActivityWithInt<DinnerActivity>(clear = true)
             orderDialog.dismiss()
         }
 
@@ -251,7 +252,7 @@ class SttStyleActivity : BaseActivity<ActivitySttStyleBinding>(ActivitySttStyleB
                     this, arrayOf(
                         Manifest.permission.INTERNET,
                         Manifest.permission.RECORD_AUDIO
-                    ), SttDinnerActivity.PERMISSION
+                    ), PERMISSION
                 )
             }
         }
