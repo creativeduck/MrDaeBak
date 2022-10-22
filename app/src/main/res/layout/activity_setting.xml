@@ -91,23 +91,47 @@
         app:layout_constraintTop_toTopOf="@+id/tv_setting_address_title"
         tools:text="서울시 동대문구" />
 
+    <TextView
+        android:id="@+id/tv_setting_rank_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="등급"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting_address_title" />
+
+    <TextView
+        android:id="@+id/tv_setting_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="브론즈"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_setting_rank_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_rank_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_setting_rank_title"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_setting_revise"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.075"
         android:layout_marginBottom="40dp"
         android:background="@drawable/shape_kakao_btn"
         android:backgroundTint="@color/kakao_black"
         android:elevation="0dp"
+        android:gravity="center"
         android:text="정보 수정"
         android:textAlignment="center"
-        android:gravity="center"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,59 +3,35 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_COOK
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_LIST
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_ME
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.adapter.OrderReceiptAdapter
+import com.creativeduck.mrdaebak.config.ApplicationClass
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.MR_USER_ID
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_COOK
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.SHOW_STATE_LIST
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.SHOW_STATE_ME
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityOrderReceiptBinding
-import com.creativeduck.mrdaebak.model.OrderModel
-import com.creativeduck.mrdaebak.model.OrderReceiptModel
-import com.creativeduck.mrdaebak.service.RemoteService
+import com.creativeduck.mrdaebak.entity.MenuModel
+import com.creativeduck.mrdaebak.entity.OrderDto
+import com.creativeduck.mrdaebak.entity.OrderState
+import com.creativeduck.mrdaebak.network.RemoteService
 import com.creativeduck.mrdaebak.util.AllSpaceDecoration
+import com.creativeduck.mrdaebak.util.getResponse
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OrderReceiptActivity :
     BaseActivity<ActivityOrderReceiptBinding>(ActivityOrderReceiptBinding::inflate) {
 
-    private val orderReceiptList = listOf(
-        OrderReceiptModel(
-            1L, "발렌타인 디너", "스타일 디너", 19544,
-            listOf(OrderModel.OrderSimpleModel(1L, "바게트", 3),
-                OrderModel.OrderSimpleModel(2L, "와인", 3),
-                OrderModel.OrderSimpleModel(3L, "스테이크", 3)),
-            "서울시 동대문구", "12시 39분", SHOW_STATE_ME
-        ),
-        OrderReceiptModel(
-            2L, "발렌타인 디너", "스타일 디너", 19544,
-            listOf(OrderModel.OrderSimpleModel(1L, "김치찌개", 3)),
-            "서울시 동대문구", "12시 39분", SHOW_STATE_LIST
-
-        ),
-        OrderReceiptModel(
-            3L, "발렌타인 디너", "스타일 디너", 19544,
-            listOf(OrderModel.OrderSimpleModel(1L, "김치찌개", 3)),
-            "서울시 동대문구", "12시 39분", SHOW_STATE_LIST
-        ),
-        OrderReceiptModel(
-            4L, "발렌타인 디너", "스타일 디너", 19544,
-            listOf(OrderModel.OrderSimpleModel(1L, "김치찌개", 3)),
-            "서울시 동대문구", "12시 39분", SHOW_STATE_LIST
-        ),
-        OrderReceiptModel(
-            5L, "발렌타인 디너", "스타일 디너", 19544,
-            listOf(OrderModel.OrderSimpleModel(1L, "김치찌개", 3)),
-            "서울시 동대문구", "12시 39분", SHOW_STATE_LIST
-        )
-    )
-
+    @Inject
+    lateinit var service: RemoteService
     private var role = ROLE_COOK
     private var showState = SHOW_STATE_LIST
     private lateinit var menu: Menu
+    private var mrUserId = 0L
     private lateinit var orderReceiptAdapter: OrderReceiptAdapter
-    @Inject
-    lateinit var service: RemoteService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,31 +42,209 @@ class OrderReceiptActivity :
         }
         setToolbar(binding.tbOrderReceipt, setHome = false, setTitle = true)
 
-        initAdapter()
+        mrUserId = encryptionSharedPreferences.getLong(MR_USER_ID, 0L)
 
+        initAdapter()
+        loadData()
     }
 
      override fun initAdapter() {
-        orderReceiptAdapter = OrderReceiptAdapter()
+        orderReceiptAdapter = OrderReceiptAdapter { item ->
+            startCooking(item.id, item.orderState)
+        }
 
         binding.rcOrderReceipt.apply {
             adapter = orderReceiptAdapter
             addItemDecoration(AllSpaceDecoration(-1, 0,10, 0, 0))
         }
-
-        orderReceiptAdapter.submitList(orderReceiptList)
     }
 
-    private fun startCook() {
+    private fun startCooking(orderId: Long, orderState: String) {
+        when (orderState) {
+            OrderState.NOT_RECEIVED.name -> {
+                // TODO 조리 시작
+                service.startCook(mrUserId, orderId).getResponse(
+                    success = {
+                        loadData()
+                    },
+                    failure = {
+                        showCustomToast("오류가 발생했습니다.")
+                    }
+                )
+            }
+            OrderState.COOKING.name -> {
+                // TODO 조리완료
+                service.updateOrder(orderId, OrderState.FINISH_COOK.name).getResponse(
+                    success = {
+                        loadData()
+                    },
+                    failure = {
+                        showCustomToast("오류가 발생했습니다.")
+                    }
+                )
+            }
+            OrderState.FINISH_COOK.name -> {
+                // TODO 배달 시작
+                service.startDelivery(mrUserId, orderId).getResponse(
+                    success = {
+                        loadData()
+                    },
+                    failure = {
+                        showCustomToast("오류가 발생했습니다.")
+                    }
+                )
+                loadData()
+            }
+            OrderState.DELIVERING.name -> {
+                // TODO 배달 완료
+                service.updateOrder(orderId, OrderState.DELIVERED.name).getResponse(
+                    success = {
+                        loadData()
+                    },
+                    failure = {
+                        showCustomToast("오류가 발생했습니다.")
+                    }
+                )
+                loadData()
+            }
 
+        }
     }
-    private fun startDelivery() {
 
-    }
+    private fun loadData() {
 
-    private fun loadData(type: Int, showState: Int) {
-        // TODO 타입에 따라, 그리고 내 목록인지 전체 목록인지 여부에 따라 분기처리해서 API 요청하기
-//        orderReceiptAdapter.submitList()
+        val response = listOf(
+            OrderDto(
+                id = 1,
+                dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.COOKING.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            ),
+            OrderDto(
+                id = 2,
+                dinner = ApplicationClass.DINNER_VALENTINE_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.NOT_RECEIVED.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            ),
+            OrderDto(
+                id = 3,
+                dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.COOKING.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            ),
+            OrderDto(
+                id = 4,
+                dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.DELIVERING.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            ),
+            OrderDto(
+                id = 5,
+                dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.DELIVERING.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            ), OrderDto(
+                id = 6,
+                dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                style = ApplicationClass.STYLE_DELUXE_NAME,
+                totalPrice = 7500,
+                orderState = OrderState.FINISH_COOK.name,
+                menuList = listOf(
+                    MenuModel("에그 샌드위치", 7400, 3)
+                ),
+                orderTime = "2022년 3월 2일",
+                address = "서울시 동대문구"
+            )
+        )
+
+        // TODO role 에 따라 다르게 요청하기
+        if (role == ROLE_COOK) {
+            if (showState == SHOW_STATE_LIST) {
+                showCustomToast("전체 조리 내역")
+                // TODO 전체 조리 내역 조회
+//                service.getCooking().getResponse(
+//                    success = {
+////                        response ->
+//                        orderReceiptAdapter.submitList(response)
+//                    },
+//                    failure = {
+//                        showCustomToast("오류가 발생했습니다.")
+//                    }
+//                )
+            }
+            else {
+                showCustomToast("요리사 조리 내역")
+                // TODO 해당 요리사의 조리 내역 조회
+//                service.getCookingForCook(mrUserId).getResponse(
+//                    success = {
+////                        response ->
+//                        orderReceiptAdapter.submitList(response)
+//                    },
+//                    failure = {
+//                        showCustomToast("오류가 발생했습니다.")
+//                    }
+//                )
+            }
+        } else {
+            // TODO mrUserId 가 0이면 일반 조회, 0 보다 크면 해당 배달원의 배달 내역 조회
+            if (showState == SHOW_STATE_LIST) {
+                // TODO 전체 배달 내역 조회
+                showCustomToast("전체 배달 내역")
+//                service.getDelivery().getResponse(
+//                    success = {
+////                        response ->
+//                        orderReceiptAdapter.submitList(response)
+//                    },
+//                    failure = {
+//                        showCustomToast("오류가 발생했습니다.")
+//                    }
+//                )
+            }
+            else {
+
+                showCustomToast("배달원 배다 ㄹ내역")
+            // TODO 해당 배달원의 배달 내역 조회
+//                service.getDeliveryForRider(mrUserId).getResponse(
+//                    success = {
+////                        response ->
+//                        orderReceiptAdapter.submitList(response)
+//                    },
+//                    failure = {
+//                        showCustomToast("오류가 발생했습니다.")
+//                    }
+//                )
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,29 +259,30 @@ class OrderReceiptActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_cooking -> {
+                // 목록을 보여주고 있었다면, 요리사의 목록을 보여주는 것으로 전환
                 if (showState == SHOW_STATE_LIST) {
                     item.title = "조리 대기 목록"
                     binding.tbOrderReceipt.title = "조리 목록"
-                    loadData(ROLE_COOK, SHOW_STATE_ME)
                     showState = SHOW_STATE_ME
+                    loadData()
                 } else {
                     item.title = "조리 목록"
                     binding.tbOrderReceipt.title = "조리 대기 목록"
-                    loadData(ROLE_COOK, SHOW_STATE_LIST)
                     showState = SHOW_STATE_LIST
+                    loadData()
                 }
             }
             R.id.menu_delivery -> {
                 if (showState == SHOW_STATE_LIST) {
                     item.title = "배달 대기 목록"
                     binding.tbOrderReceipt.title = "배달 목록"
-                    loadData(ROLE_RIDER, SHOW_STATE_ME)
                     showState = SHOW_STATE_ME
+                    loadData()
                 } else {
                     item.title = "배달 목록"
                     binding.tbOrderReceipt.title = "배달 대기 목록"
-                    loadData(ROLE_RIDER, SHOW_STATE_LIST)
                     showState = SHOW_STATE_LIST
+                    loadData()
                 }
             }
             else -> return true

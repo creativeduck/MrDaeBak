@@ -2,16 +2,27 @@ package com.creativeduck.mrdaebak.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_COOK
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_MANAGER
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_USER
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.KAKAO_ACCESS_TOKEN
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_COOK
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_MANAGER
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_RIDER
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_USER
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityRegisterBinding
+import com.creativeduck.mrdaebak.entity.RegisterRequestDto
+import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RegisterActivity: BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate) {
 
+    @Inject
+    lateinit var service: RemoteService
     private val btnList = ArrayList<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +36,13 @@ class RegisterActivity: BaseActivity<ActivityRegisterBinding>(ActivityRegisterBi
         button.setOnTouchListener { _, _ ->
             for(btn in btnList) {
                 btn.isPressed = btn == button
+                if (btn.isPressed) {
+                    if (btn == binding.btnRegisterRoleUser) {
+                        binding.editRegisterVerificationLayout.visibility = View.GONE;
+                    } else {
+                        binding.editRegisterVerificationLayout.visibility = View.VISIBLE;
+                    }
+                }
             }
             true
         }
@@ -57,10 +75,45 @@ class RegisterActivity: BaseActivity<ActivityRegisterBinding>(ActivityRegisterBi
         return ROLE_USER
     }
 
-    private fun register(name: String, address: String, role: Int) {
-        // TODO 회원정보 post 보내기
+    private fun register(name: String, address: String, roleCode: Int) {
+        // 카카오 Id
+        val kakaoToken = encryptionSharedPreferences.getString(KAKAO_ACCESS_TOKEN, null)
+        val role = when (roleCode) {
+            ROLE_COOK -> {
+                "ROLE_COOK"
+            }
+            ROLE_RIDER -> {
+                "ROLE_RIDER"
+            }
+            ROLE_MANAGER -> {
+                "ROLE_MANAGER"
+            }
+            else -> {
+                "ROLE_USER"
+            }
+        }
+        if (kakaoToken == null) {
+            showCustomToast("카카오 로그인이 되어있지 않습니다.")
+            return
+        }
+        val verificationCode = if (roleCode != ROLE_USER)
+                                    binding.editRegisterVerification.text.toString()
+                                else
+                                    "EMPTY"
+        val requestDto = RegisterRequestDto(kakaoToken, name, address, role, verificationCode)
+
+        // TODO 회원가입 요청 보내고, 성공하면 로그인 화면으로 이동하기
+//        service.register(requestDto).getResponse(
+//            success = {
+//                goActivityWithInt<LoginActivity>(clear = true)
+//            },
+//            failure = {
+//                showCustomToast("오류가 발생했습니다.")
+//            }
+//        )
+
         // TODO 임시로 한 것
-        when (role) {
+        when (roleCode) {
             ROLE_USER -> {
                 goActivityWithInt<DinnerActivity>(clear = true)
             }
@@ -74,15 +127,13 @@ class RegisterActivity: BaseActivity<ActivityRegisterBinding>(ActivityRegisterBi
                 goActivityWithInt<IngredientActivity>(clear = true)
             }
         }
-//        // TODO 다시 로그인 화면으로 이동해서 로그인하기
-//        startNewActivityAndClear<LoginActivity>()
     }
 
     override fun initClick() {
         with(binding) {
             btnRegister.setOnClickListener {
-                val name = editSignInName.text.toString()
-                val address = editSignInAddress.text.toString()
+                val name = editRegisterName.text.toString()
+                val address = editRegisterAddress.text.toString()
                 val btn = getPressedBtn()
                 register(name, address, btn)
             }

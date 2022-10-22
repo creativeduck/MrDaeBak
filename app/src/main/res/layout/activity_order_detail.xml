@@ -16,6 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:title="주문 상세 내역"
             app:menu="@menu/menu_order_detail"/>
 
         <androidx.constraintlayout.widget.Guideline
@@ -33,7 +34,7 @@
             app:layout_constraintGuide_end="20dp"/>
 
         <TextView
-            android:id="@+id/tv_order_detail_delivery_state"
+            android:id="@+id/tv_order_detail_order_state"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -44,7 +45,7 @@
             android:textAlignment="textStart"
             app:layout_constraintTop_toBottomOf="@id/tb_order_detail"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn_order_detail_cancel"/>
 
         <TextView
             android:id="@+id/tv_order_detail_dinner"
@@ -55,9 +56,26 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textAlignment="textStart"
-            app:layout_constraintTop_toBottomOf="@id/tv_order_detail_delivery_state"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_detail_order_state"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn_order_detail_cancel"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/btn_order_detail_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주문 취소"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_detail_order_state"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_state"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:background="@drawable/shape_kakao_btn"
+            android:backgroundTint="@color/teal_700"
+            />
 
         <TextView
             android:id="@+id/tv_order_detail_price_title"
@@ -105,7 +123,6 @@
                 android:id="@+id/rc_order_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#EAEAEA"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

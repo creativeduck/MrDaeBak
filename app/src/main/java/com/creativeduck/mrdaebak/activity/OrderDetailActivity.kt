@@ -3,60 +3,108 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.creativeduck.mrdaebak.R
-import com.creativeduck.mrdaebak.databinding.ActivityOrderDetailBinding
 import com.creativeduck.mrdaebak.adapter.OrderDetailAdapter
-import com.creativeduck.mrdaebak.model.OrderDetailModel
+import com.creativeduck.mrdaebak.config.ApplicationClass
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.MR_USER_ID
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ORDER_LIST_ITEM_ID
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
+import com.creativeduck.mrdaebak.databinding.ActivityOrderDetailBinding
+import com.creativeduck.mrdaebak.entity.MenuModel
+import com.creativeduck.mrdaebak.entity.OrderDto
+import com.creativeduck.mrdaebak.entity.OrderState
+import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.util.getResponse
+import com.creativeduck.mrdaebak.util.goActivityWithLong
+import com.creativeduck.mrdaebak.util.moneyFormat
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class OrderDetailActivity : BaseActivity<ActivityOrderDetailBinding>(ActivityOrderDetailBinding::inflate) {
-    private val orderDetailList = listOf(
-        OrderDetailModel(1L, "에그 베네딕트", 7590, 3),
-        OrderDetailModel(2L, "스테이크", 7590, 3),
-        OrderDetailModel(3L, "와인", 7590, 3),
-        OrderDetailModel(4L, "참치", 7590, 3),
-        OrderDetailModel(5L, "빵", 7590, 3),
-        OrderDetailModel(6L, "샴페인", 7590, 3)
-    )
+@AndroidEntryPoint
+class OrderDetailActivity :
+    BaseActivity<ActivityOrderDetailBinding>(ActivityOrderDetailBinding::inflate) {
+
+    @Inject
+    lateinit var service: RemoteService
 
     private lateinit var menu: Menu
     private lateinit var orderDetailAdapter: OrderDetailAdapter
+    private var orderId = 0L
+    private var mrUserId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbar(binding.tbOrderDetail, true);
 
-        initData()
+        orderId = intent.getLongExtra(ORDER_LIST_ITEM_ID, 0L)
+
         initAdapter()
+        loadData()
     }
 
-    private fun loadOrderDetail() {
+    // TODO API 연동하기
+    private fun loadData() {
+        service.getOrderDetail(mrUserId, orderId).getResponse(
+            success = {
+//                response ->
+                // TODO 임시
+                val response = OrderDto(
+                    id = 1,
+                    dinner = ApplicationClass.DINNER_ENGLISH_NAME,
+                    style = ApplicationClass.STYLE_DELUXE_NAME,
+                    totalPrice = 7500,
+                    orderState = OrderState.COOKING.name,
+                    menuList = listOf(
+                        MenuModel("에그 샌드위치", 7400, 3)
+                    ),
+                    orderTime = "2022년 3월 2일",
+                    address = "서울시 동대문구"
+                )
 
+                with(binding) {
+                    with(response) {
+                        if (orderState == OrderState.NOT_RECEIVED.name) {
+                            btnOrderDetailCancel.visibility = View.VISIBLE
+                            btnOrderDetailCancel.setOnClickListener { cancelOrder(orderState) }
+                        }
+                        tvOrderDetailOrderState.text = orderState
+                        tvOrderDetailDinner.text = "$dinner / $style"
+                        tvOrderDetailPrice.text = totalPrice.moneyFormat()
+                        tvOrderDetailOrderTime.text = orderTime
+                        tvOrderDetailAddress.text = address
+                    }
+                }
+                orderDetailAdapter.submitList(response.menuList)
+            },
+            failure = {
+                showCustomToast("오류가 발생했습니다.")
+            }
+        )
+    }
+
+    // TODO 주문 취소 API 연동
+    private fun cancelOrder(orderState: String) {
+        if (orderState == OrderState.NOT_RECEIVED.name) {
+            service.updateOrder(orderId, OrderState.CANCELED.name).getResponse(
+                success = {
+                    loadData()
+                },
+                failure = {
+                    showCustomToast("오류가 발생했습니다.")
+                }
+            )
+        } else {
+            showCustomToast("주문 취소할 수 없습니다")
+            loadData()
+        }
     }
 
     override fun initAdapter() {
         orderDetailAdapter = OrderDetailAdapter()
-        // TODO 주문 내역 리스트 설정
+
         binding.rcOrderDetail.apply {
             adapter = orderDetailAdapter
-        }
-        orderDetailAdapter.submitList(orderDetailList)
-    }
-
-    override fun initData() {
-        with(binding) {
-            // TODO 주문 상태 설정
-            tvOrderDetailDeliveryState.text = "배달중"
-            // TODO 디너, 스타일 설정
-            tvOrderDetailDinner.text = "발렌타인 디너 / 스타일 디너"
-
-            // TODO 총 주문 가격 설정
-            tvOrderDetailPrice.text = "13.4544원"
-
-            // TODO 주문 일시 설정
-            tvOrderDetailOrderTime.text = "2022년 3월 23일"
-
-            // TODO 주문 주소 설정
-            tvOrderDetailAddress.text = "서울시 동대문구"
         }
     }
 
@@ -72,7 +120,7 @@ class OrderDetailActivity : BaseActivity<ActivityOrderDetailBinding>(ActivityOrd
                 finish()
             }
             R.id.menu_order_detail_refresh -> {
-                // TODO 배달 상태 갱신
+                loadData()
             }
             else -> return true
         }

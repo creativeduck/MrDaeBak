@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.Button
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.creativeduck.mrdaebak.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,7 +14,7 @@ import retrofit2.Response
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
-fun Button.dispatch(time: Int) {
+fun LinearLayoutCompat.dispatch(time: Int) {
     dispatchTouchEvent(
         MotionEvent
             .obtain(

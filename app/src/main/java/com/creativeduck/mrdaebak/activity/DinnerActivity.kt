@@ -3,11 +3,11 @@ package com.creativeduck.mrdaebak.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_CHAMPAGNE
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_ENGLISH
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_FRENCH
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_TYPE
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.DINNER_VALENTINE
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.DINNER_CHAMPAGNE
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.DINNER_ENGLISH
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.DINNER_FRENCH
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.DINNER_TYPE
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.DINNER_VALENTINE
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ActivityDinnerBinding
 import com.creativeduck.mrdaebak.util.goActivityWithInt
@@ -18,7 +18,7 @@ class DinnerActivity : BaseActivity<ActivityDinnerBinding>(ActivityDinnerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setToolbar(binding.tbDinner, false)
+        setToolbar(binding.tbDinner, setHome = false, setTitle = true)
 
         initClick()
     }

@@ -8,7 +8,7 @@
     android:backgroundTint="@color/kakao_black">
 
     <TextView
-        android:id="@+id/tv_order_title"
+        android:id="@+id/tv_dialog_order_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -21,10 +21,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_order_dinner"
+        android:id="@+id/tv_dialog_order_dinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="18sp"
         tools:text="발렌타인 디너"
@@ -33,55 +33,81 @@
         android:padding="10dp"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_order_style"
-        app:layout_constraintTop_toBottomOf="@+id/tv_order_title"
+        app:layout_constraintEnd_toStartOf="@+id/tv_dialog_order_style"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_order_title"
         />
 
     <TextView
-        android:id="@+id/tv_order_style"
+        android:id="@+id/tv_dialog_order_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
-        tools:text="총 주문 금액"
+        tools:text="심플 디너"
         android:background="@drawable/shape_kakao_btn"
-        android:backgroundTint="#00508F"
+        android:backgroundTint="#01635A"
         android:padding="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_order_dinner"
+        app:layout_constraintStart_toEndOf="@+id/tv_dialog_order_dinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_order_dinner"/>
+        app:layout_constraintTop_toTopOf="@+id/tv_dialog_order_dinner"/>
 
     <TextView
-        android:id="@+id/btn_order_okay"
+        android:id="@+id/tv_dialog_order_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        tools:text="발렌타인 디너\n발렌타인 디너\n발렌타인 디너\n발렌타인 디너\n발렌타인 디너\n발렌타인 디너\n"
+        android:background="@drawable/shape_kakao_btn"
+        android:backgroundTint="@color/white"
+        android:padding="10dp"
+        android:layout_margin="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_order_style"
+        />
+
+    <TextView
+        android:id="@+id/tv_dialog_order_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:text="총 주문 가격: 24000원"
+        android:background="@drawable/shape_kakao_btn"
+        android:backgroundTint="#00508F"
+        android:padding="5dp"
+        android:layout_margin="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_order_list"/>
+
+    <TextView
+        android:id="@+id/btn_dialog_order_okay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:text="주문"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_order_style"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_order_price"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_order_no"/>
+        app:layout_constraintEnd_toStartOf="@+id/btn_dialog_order_no"/>
 
     <TextView
-        android:id="@+id/btn_order_no"
+        android:id="@+id/btn_dialog_order_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_margin="20dp"
         android:text="취소"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_order_style"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_order_price"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

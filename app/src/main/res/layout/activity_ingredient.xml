@@ -11,14 +11,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="식자재 목록"
-        app:menu="@menu/menu_ingredient"/>
+        app:title="식자재 목록" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_ingredient"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#E8E8E8"
         app:layout_constraintTop_toBottomOf="@+id/tb_ingredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +35,7 @@
         android:background="@drawable/shape_kakao_btn"
         android:backgroundTint="@color/kakao_black"
         android:elevation="0dp"
-        android:text="회원가입"
+        android:text="주문"
         android:textAlignment="center"
         android:gravity="center"
         android:textColor="@color/white"

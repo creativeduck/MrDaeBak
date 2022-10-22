@@ -6,80 +6,184 @@
     android:layout_height="match_parent"
     tools:context=".activity.DinnerActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tb_dinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/menu_dinner"
-            app:title="배달"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_dinner_valentine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="발렌타인 디너"
-            app:layout_constraintVertical_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btn_dinner_french"
-            android:padding="30dp"
-            android:background="@drawable/shape_tv_dinner"
-            />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_dinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/menu_dinner"
+                app:title="주문"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_dinner_french"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="프렌치 디너"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_dinner_valentine"
-            app:layout_constraintBottom_toTopOf="@+id/btn_dinner_english"
-            android:padding="30dp"
-            android:background="@drawable/shape_tv_dinner"
-            />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btn_dinner_valentine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="50dp"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btn_dinner_french"
+                android:background="@drawable/selector_btn_sign_in"
+                android:padding="20dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="발렌타인 디너(Valentine Dinner)"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="와인, 스테이크 제공"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:text="하트 모양과 큐피드가 장식된 접시에 냅킨과 함께 제공"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_dinner_english"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="잉글리시 디너"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_dinner_french"
-            app:layout_constraintBottom_toTopOf="@id/btn_dinner_champagne"
-            android:padding="30dp"
-            android:background="@drawable/shape_tv_dinner"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="end"
+                    android:text="20,000원"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_dinner_champagne"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="샴페인 디너"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_dinner_english"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="30dp"
-            android:background="@drawable/shape_tv_dinner"
-            />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btn_dinner_french"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@id/btn_dinner_valentine"
+                app:layout_constraintEnd_toEndOf="@id/btn_dinner_valentine"
+                app:layout_constraintTop_toBottomOf="@+id/btn_dinner_valentine"
+                app:layout_constraintBottom_toTopOf="@+id/btn_dinner_english"
+                android:padding="20dp"
+                android:background="@drawable/selector_btn_sign_in"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="프렌치 디너(French Dinner)"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="커피, 와인, 샐러드, 스테이크 제공"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="end"
+                    android:text="25,000원"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btn_dinner_english"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@id/btn_dinner_valentine"
+                app:layout_constraintEnd_toEndOf="@id/btn_dinner_valentine"
+                app:layout_constraintTop_toBottomOf="@+id/btn_dinner_french"
+                app:layout_constraintBottom_toTopOf="@id/btn_dinner_champagne"
+                android:padding="20dp"
+                android:background="@drawable/selector_btn_sign_in"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="잉글리시 디너(English Dinner)"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="에그 스크램블, 베이컨, 빵, 스테이크 제공"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="end"
+                    android:text="30,000원"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btn_dinner_champagne"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintStart_toStartOf="@id/btn_dinner_valentine"
+                app:layout_constraintEnd_toEndOf="@id/btn_dinner_valentine"
+                app:layout_constraintTop_toBottomOf="@+id/btn_dinner_english"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="20dp"
+                android:background="@drawable/selector_btn_sign_in"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="샴페인 축제 디너\n(Champagne Feast Dinner)"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="샴페인, 바게트빵 4개, 와인, 스테이크, 커피 한 포트 제공"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="end"
+                    android:text="40,000원"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_dinner_stt"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        app:backgroundTint="@color/kakao_yellow"
+        app:backgroundTint="#7BCAED"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="30dp"
         app:pressedTranslationZ="12dp"

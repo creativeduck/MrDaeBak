@@ -1,7 +1,6 @@
-package com.creativeduck.mrdaebak.di
+package com.creativeduck.mrdaebak.network
 
 import com.creativeduck.mrdaebak.BuildConfig
-import com.creativeduck.mrdaebak.service.RemoteService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

@@ -1,52 +1,115 @@
 package com.creativeduck.mrdaebak.activity
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.ROLE_RIDER
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.SHOW_STATE_ME
-import com.creativeduck.mrdaebak.R
+import android.view.View
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
+import com.creativeduck.mrdaebak.adapter.IngredientAdapter
 import com.creativeduck.mrdaebak.databinding.ActivityIngredientBinding
+import com.creativeduck.mrdaebak.entity.IngredientItemModel
+import com.creativeduck.mrdaebak.entity.IngredientListModel
+import com.creativeduck.mrdaebak.entity.IngredientModel
+import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.util.OnItemClickListener
+import com.creativeduck.mrdaebak.util.getResponse
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class IngredientActivity : BaseActivity<ActivityIngredientBinding>(ActivityIngredientBinding::inflate) {
+@AndroidEntryPoint
+class IngredientActivity :
+    BaseActivity<ActivityIngredientBinding>(ActivityIngredientBinding::inflate) {
 
-    private lateinit var menu: Menu
+    @Inject
+    lateinit var service: RemoteService
+    private lateinit var ingredientAdapter: IngredientAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbar(binding.tbIngredient, setHome = false, setTitle = true)
 
         initClick()
+        initAdapter()
+        loadData()
     }
+
+    private fun loadData() {
+        service.getIngredient().getResponse(
+            success = {
+//                val response = it.ingredientList
+                // TODO 식자재 요청 API 연동하기
+                val response = listOf(
+                    IngredientModel("오이", 10000, 3),
+                    IngredientModel("굴", 10000, 3),
+                    IngredientModel("소고기", 10000, 3),
+                    IngredientModel("계란", 10000, 3),
+                    IngredientModel("버터", 10000, 3)
+                )
+
+                ingredientAdapter.submitList(
+                    response.map { model ->
+                        IngredientItemModel(model, model.amount > 0)
+                    }
+                )
+            },
+            failure = {
+                showCustomToast("오류가 발생했습니다.")
+            }
+        )
+    }
+
 
     override fun initClick() {
         binding.btnIngredientOrder.setOnClickListener {
-            // TODO 주문 후 상태 변경
-            
+            // TODO 식자재 변경 API 요청
+            service.updateIngredient(
+                IngredientListModel(
+                    ingredientAdapter.currentList.map {
+                        it.ingredient
+                    }
+                )
+            ).getResponse(
+                success = {
+                    loadData()
+                },
+                failure = {
+                    showCustomToast("오류가 발생했습니다.")
+                }
+            )
         }
     }
 
-    private fun loadData(type: Int, showState: Int) {
-        // TODO 타입에 따라, 그리고 내 목록인지 전체 목록인지 여부에 따라 분기처리해서 API 요청하기
-//        orderReceiptAdapter.submitList()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        this.menu = menu
-        menuInflater.inflate(R.menu.menu_ingredient, this.menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_ingredient_order -> {
-                // TODO 여기선 단지 아이템 상태를 바꾸기만 하자
-                // TODO 어차피 수정 버튼을 눌러서 다시 원래 상태로 돌아오니까
-                item.title = ""
-                loadData(ROLE_RIDER, SHOW_STATE_ME)
+    override fun initAdapter() {
+        ingredientAdapter = IngredientAdapter(
+            object : OnItemClickListener {
+                override fun onItemClicked(view: View, pos: Int) {
+                    val item = ingredientAdapter.currentList[pos]
+                    item.ingredient.amount++
+                    if (!item.isChecked)
+                        item.isChecked = true
+                    ingredientAdapter.notifyItemChanged(pos)
+                }
+            },
+            object : OnItemClickListener {
+                override fun onItemClicked(view: View, pos: Int) {
+                    val item = ingredientAdapter.currentList[pos]
+                    if (item.ingredient.amount > 0)
+                        item.ingredient.amount--
+                    if (item.ingredient.amount == 0)
+                        item.isChecked = false
+                    ingredientAdapter.notifyItemChanged(pos)
+                }
             }
-            else -> return true
+        ) {
+            val item = ingredientAdapter.currentList[it]
+            item.isChecked = !item.isChecked
+            item.ingredient.amount = if (item.isChecked) 1 else 0
+            ingredientAdapter.notifyItemChanged(it)
         }
-        return super.onOptionsItemSelected(item)
+
+        binding.rcIngredient.apply {
+            adapter = ingredientAdapter
+            itemAnimator = null
+            addItemDecoration(DividerItemDecoration(this@IngredientActivity, RecyclerView.VERTICAL))
+        }
     }
 }

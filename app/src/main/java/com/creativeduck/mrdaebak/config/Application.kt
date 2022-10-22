@@ -1,9 +1,10 @@
-package com.creativeduck.mrdaebak
+package com.creativeduck.mrdaebak.config
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.creativeduck.mrdaebak.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 
@@ -28,6 +29,9 @@ class ApplicationClass: Application() {
         lateinit var encryptionSharedPreferences : SharedPreferences
         // 암호화 필요한 정보
         const val KAKAO_ACCESS_TOKEN = "kakao_access_token"
+        const val MR_USER_ID = "mr_user_id"
+        const val JWT_TOKEN = "jwt_token"
+        const val MR_USER_ROLE = "mr_user_role"
         // 권한
         const val PERMISSION = 1
         // 주문
@@ -37,6 +41,10 @@ class ApplicationClass: Application() {
         const val DINNER_FRENCH = 1
         const val DINNER_ENGLISH = 2
         const val DINNER_CHAMPAGNE = 3
+        const val DINNER_VALENTINE_NAME = "발렌타인 디너"
+        const val DINNER_FRENCH_NAME = "프렌치 디너"
+        const val DINNER_ENGLISH_NAME = "잉글리시 디너"
+        const val DINNER_CHAMPAGNE_NAME = "샴페인 축제 디너"
         const val DINNER_TYPE = "dinner type"
         // 설정
         const val EDIT_COMPLETED = 0
@@ -45,6 +53,9 @@ class ApplicationClass: Application() {
         const val STYLE_SIMPLE = 0
         const val STYLE_GRAND = 1
         const val STYLE_DELUXE = 2
+        const val STYLE_SIMPLE_NAME = "심플 스타일"
+        const val STYLE_GRAND_NAME = "그랜드 스타일"
+        const val STYLE_DELUXE_NAME = "디럭스 스타일"
         const val STYLE_TYPE = "style type"
 
         // 음식

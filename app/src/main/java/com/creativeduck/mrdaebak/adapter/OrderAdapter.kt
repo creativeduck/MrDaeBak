@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.databinding.ItemOrderHeaderBinding
 import com.creativeduck.mrdaebak.databinding.ItemOrderItemBinding
-import com.creativeduck.mrdaebak.model.OrderModel
+import com.creativeduck.mrdaebak.entity.OrderModel
 import com.creativeduck.mrdaebak.util.ItemDiffCallback
 import com.creativeduck.mrdaebak.util.OnItemClickListener
 
@@ -15,7 +15,7 @@ class OrderAdapter(
     private val minusListener: OnItemClickListener,
     private val checkListener: (Int) -> Unit
 ) : ListAdapter<OrderModel, RecyclerView.ViewHolder>(ItemDiffCallback<OrderModel>(
-    onItemsTheSame = { old, new -> old.title == new.title },
+    onItemsTheSame = { old, new -> old.id == new.id },
     onContentsTheSame = { old, new -> old == new }
 )) {
     private lateinit var inflater: LayoutInflater
@@ -66,3 +66,42 @@ class OrderAdapter(
     }
 }
 
+
+class OrderHeaderViewHolder(
+    private val binding: ItemOrderHeaderBinding
+): RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: OrderModel.OrderHeaderModel) {
+        binding.tvOrderTitle.text = item.title
+    }
+}
+
+class OrderItemViewHolder(
+    private val binding: ItemOrderItemBinding,
+    private val addListener: OnItemClickListener,
+    private val minusListener: OnItemClickListener,
+    private val checkListener: (Int) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: OrderModel.OrderItemModel) {
+        with(binding) {
+            tvOrderAmount.text = "${item.menu.amount}개"
+            tvOrderPrice.text = "${item.menu.price}원"
+            tvOrderTitle.text = item.menu.name
+
+            btnOrderAddAmount.setOnClickListener {
+                addListener.onItemClicked(it, adapterPosition)
+            }
+
+            btnOrderMinusAmount.setOnClickListener {
+                minusListener.onItemClicked(it, adapterPosition)
+            }
+
+            cbOrder.setOnCheckedChangeListener(null)
+            cbOrder.isChecked = item.isChecked
+            cbOrder.setOnCheckedChangeListener { _, _ ->
+                checkListener(adapterPosition)
+            }
+        }
+    }
+}

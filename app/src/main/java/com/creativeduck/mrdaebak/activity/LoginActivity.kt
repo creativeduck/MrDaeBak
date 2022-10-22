@@ -1,13 +1,18 @@
 package com.creativeduck.mrdaebak.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.KAKAO_ACCESS_TOKEN
-import com.creativeduck.mrdaebak.ApplicationClass.Companion.encryptionSharedPreferences
-import com.creativeduck.mrdaebak.R
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.JWT_TOKEN
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.KAKAO_ACCESS_TOKEN
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.MR_USER_ID
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.MR_USER_ROLE
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_COOK
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_RIDER
+import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityLoginBinding
-import com.creativeduck.mrdaebak.service.RemoteService
+import com.creativeduck.mrdaebak.entity.LoginRequestDto
+import com.creativeduck.mrdaebak.entity.LoginResponseDto
+import com.creativeduck.mrdaebak.network.RemoteService
 import com.creativeduck.mrdaebak.util.NetworkManager
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt
@@ -15,8 +20,10 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
     @Inject
@@ -29,12 +36,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         checkLogin()
     }
 
-    private fun startMain() {
-        // TODO 여기서 사용자의 역할에 따라 다른 메인화면으로 이동해야 함
-        val intent = Intent(this, DinnerActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    private fun startMain(role: String) {
+        when (encryptionSharedPreferences.getString(MR_USER_ROLE, "ROLE_USER")) {
+            "ROLE_MANAGER" -> {
+                goActivityWithInt<IngredientActivity>(clear = true)
+            }
+            "ROLE_COOK" -> {
+                goActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_COOK), clear = true)
+            }
+            "ROLE_RIDER" -> {
+                goActivityWithInt<OrderReceiptActivity>(Pair("ROLE", ROLE_RIDER), clear = true)
+            }
+            else -> {
+                goActivityWithInt<DinnerActivity>(clear = true)
+            }
+        }
     }
 
     override fun initClick() {
@@ -67,7 +83,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                     .putString(KAKAO_ACCESS_TOKEN, accessToken).apply()
 
                 NetworkManager.checkNetwork(this, {
-                    login()
+                    login(accessToken)
                 }, {
                     showCustomToast("네트워크에 연결되지 않았습니다.")
                 })
@@ -76,21 +92,28 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     // TODO 백엔드에 요청해서 JWT 가져오는 것 구현
-    private fun login() {
-        service.listPokemons().getResponse(
+    private fun login(accessToken: String) {
+        service.login(LoginRequestDto(accessToken)).getResponse(
             success = {
-                // 회원가입 해야하면 회원가입 화면으로 이동
-//                startSignIn()
-                // JWT 반환받으면 로그인
-                startMain()
+//                    response ->
+                // TODO 임시
+                val response = LoginResponseDto(303, "", 33L, "ROLE_MANAGER")
+                if (response.code == 404) {
+                    goActivityWithInt<RegisterActivity>(clear = true)
+                } else {
+                    with(encryptionSharedPreferences) {
+                        val mrUserid = response.userId
+                        edit().putString(JWT_TOKEN, response.jwt).apply()
+                        edit().putLong(MR_USER_ID, mrUserid).apply()
+                        edit().putString(MR_USER_ROLE, response.role).apply()
+                        startMain(response.role)
+                    }
+                }
             },
             failure = {
-                Log.d("HELLO", it.message.toString())
-            })
-    }
-
-    private fun startRegister() {
-        goActivityWithInt<RegisterActivity>(clear = true)
+                showCustomToast("오류가 발생했습니다.")
+            }
+        )
     }
 
     private fun kakaoLogin() {
@@ -123,8 +146,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                     if (accessToken != null) {
                         NetworkManager.checkNetwork(this,
                             callApi = {
-                                // TODO 이때도 AccessToken 으로 로그인 처리하는 거였음
-                                startMain()
+                                val role=  encryptionSharedPreferences.getString(MR_USER_ROLE, null)
+                                role?.let { startMain(it) }
                             },
                             notConnected = {
                                 showCustomToast("네트워크에 연결되지 않았습니다.")
