@@ -10,9 +10,9 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_COOK
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_RIDER
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityLoginBinding
-import com.creativeduck.mrdaebak.entity.LoginRequestDto
-import com.creativeduck.mrdaebak.entity.LoginResponseDto
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.LoginRequestDto
+import com.creativeduck.mrdaebak.data.LoginResponseDto
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.NetworkManager
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt

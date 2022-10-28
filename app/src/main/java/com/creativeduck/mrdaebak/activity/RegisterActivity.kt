@@ -11,9 +11,8 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_RIDER
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ROLE_USER
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityRegisterBinding
-import com.creativeduck.mrdaebak.entity.RegisterRequestDto
-import com.creativeduck.mrdaebak.network.RemoteService
-import com.creativeduck.mrdaebak.util.getResponse
+import com.creativeduck.mrdaebak.data.RegisterRequestDto
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.goActivityWithInt
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

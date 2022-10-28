@@ -1,4 +1,4 @@
-package com.creativeduck.mrdaebak.entity
+package com.creativeduck.mrdaebak.data
 
 data class OrderDto(
     val id: Long = 0L,

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
@@ -40,11 +39,11 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.STYLE_SIMPLE_
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.STYLE_TYPE
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityOrderBinding
-import com.creativeduck.mrdaebak.entity.MenuModel
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderModel
-import com.creativeduck.mrdaebak.entity.UserDto
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.MenuModel
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderModel
+import com.creativeduck.mrdaebak.data.UserDto
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.OnItemClickListener
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt

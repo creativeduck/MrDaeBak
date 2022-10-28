@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.databinding.ItemOrderListBinding
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderState
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderState
 import com.creativeduck.mrdaebak.util.ItemDiffCallback
 import com.creativeduck.mrdaebak.util.moneyFormat
 

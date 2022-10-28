@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.adapter.IngredientAdapter
 import com.creativeduck.mrdaebak.databinding.ActivityIngredientBinding
-import com.creativeduck.mrdaebak.entity.IngredientItemModel
-import com.creativeduck.mrdaebak.entity.IngredientListModel
-import com.creativeduck.mrdaebak.entity.IngredientModel
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.IngredientItemModel
+import com.creativeduck.mrdaebak.data.IngredientListModel
+import com.creativeduck.mrdaebak.data.IngredientModel
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.OnItemClickListener
 import com.creativeduck.mrdaebak.util.getResponse
 import dagger.hilt.android.AndroidEntryPoint

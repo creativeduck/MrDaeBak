@@ -1,12 +1,11 @@
 package com.creativeduck.mrdaebak.adapter
 
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.databinding.ItemOrderDetailBinding
-import com.creativeduck.mrdaebak.entity.MenuModel
+import com.creativeduck.mrdaebak.data.MenuModel
 import com.creativeduck.mrdaebak.util.ItemDiffCallback
 import com.creativeduck.mrdaebak.util.moneyFormat
 

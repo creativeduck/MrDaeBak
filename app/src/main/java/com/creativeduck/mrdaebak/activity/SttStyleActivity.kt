@@ -39,11 +39,11 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.STYLE_GRAND
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.STYLE_SIMPLE
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivitySttStyleBinding
-import com.creativeduck.mrdaebak.entity.MenuModel
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderModel
-import com.creativeduck.mrdaebak.entity.UserDto
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.MenuModel
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderModel
+import com.creativeduck.mrdaebak.data.UserDto
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.dispatch
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt

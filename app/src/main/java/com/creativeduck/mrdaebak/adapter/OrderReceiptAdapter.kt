@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.R
 import com.creativeduck.mrdaebak.databinding.ItemOrderReceiptBinding
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderState
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderState
 import com.creativeduck.mrdaebak.util.ItemDiffCallback
-import com.creativeduck.mrdaebak.util.OnItemClickListener
 import com.creativeduck.mrdaebak.util.moneyFormat
 
 class OrderReceiptAdapter(

@@ -9,10 +9,10 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.ORDER_LIST_IT
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.STYLE_DELUXE_NAME
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityOrderListBinding
-import com.creativeduck.mrdaebak.entity.MenuModel
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderState
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.MenuModel
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderState
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.AllSpaceDecoration
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithLong

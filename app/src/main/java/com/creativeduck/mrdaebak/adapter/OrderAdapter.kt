@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.creativeduck.mrdaebak.databinding.ItemOrderHeaderBinding
 import com.creativeduck.mrdaebak.databinding.ItemOrderItemBinding
-import com.creativeduck.mrdaebak.entity.OrderModel
+import com.creativeduck.mrdaebak.data.OrderModel
 import com.creativeduck.mrdaebak.util.ItemDiffCallback
 import com.creativeduck.mrdaebak.util.OnItemClickListener
 

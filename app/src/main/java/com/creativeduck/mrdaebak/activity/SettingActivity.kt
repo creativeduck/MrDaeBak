@@ -11,8 +11,8 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.EDIT_COMPLETE
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.MR_USER_ID
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivitySettingBinding
-import com.creativeduck.mrdaebak.entity.UserDto
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.UserDto
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.getResponse
 import com.creativeduck.mrdaebak.util.goActivityWithInt
 import dagger.hilt.android.AndroidEntryPoint

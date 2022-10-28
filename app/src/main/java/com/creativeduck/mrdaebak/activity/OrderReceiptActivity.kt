@@ -12,10 +12,10 @@ import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.SHOW_STATE_LI
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.SHOW_STATE_ME
 import com.creativeduck.mrdaebak.config.ApplicationClass.Companion.encryptionSharedPreferences
 import com.creativeduck.mrdaebak.databinding.ActivityOrderReceiptBinding
-import com.creativeduck.mrdaebak.entity.MenuModel
-import com.creativeduck.mrdaebak.entity.OrderDto
-import com.creativeduck.mrdaebak.entity.OrderState
-import com.creativeduck.mrdaebak.network.RemoteService
+import com.creativeduck.mrdaebak.data.MenuModel
+import com.creativeduck.mrdaebak.data.OrderDto
+import com.creativeduck.mrdaebak.data.OrderState
+import com.creativeduck.mrdaebak.data.RemoteService
 import com.creativeduck.mrdaebak.util.AllSpaceDecoration
 import com.creativeduck.mrdaebak.util.getResponse
 import dagger.hilt.android.AndroidEntryPoint

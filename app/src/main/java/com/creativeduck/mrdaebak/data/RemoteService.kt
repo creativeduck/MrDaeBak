@@ -1,6 +1,5 @@
-package com.creativeduck.mrdaebak.network
+package com.creativeduck.mrdaebak.data
 
-import com.creativeduck.mrdaebak.entity.*
 import retrofit2.Call
 import retrofit2.http.*
 
